@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kindle manga/comic web reader enhancements
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Adds enhancements to the kindle manga/comic web reader
 // @author       Álvaro Muñoz
 // @match        https://read.amazon.com/manga/*
@@ -9,7 +9,7 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_listValues
-// @run-at       document-end
+// @run-at       document-body
 // ==/UserScript==
 
 (function () {
