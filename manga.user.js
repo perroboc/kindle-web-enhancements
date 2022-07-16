@@ -72,7 +72,7 @@
                         extended_menuItemLink.addEventListener('click', function(event){ 
                             console.log(`Switching direction! to ${reverseDirection}`);
                             GM_setValue(amazonKindleId+'navigationDirection', reverseDirection);
-                            window.location.reload(false);
+                            window.location.reload(true);
                         }, false);
                         extended_menuItemLink.appendChild(extended_menuItemText);
                         
