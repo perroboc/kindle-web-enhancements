@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kindle manga/comic beta web reader enhancements
 // @namespace    http://alvaromunoz.cl/
-// @version      1.0.3
+// @version      1.0.4
 // @description  Adds enhancements to the kindle manga/comic beta web reader
 // @author       Álvaro Muñoz
 // @match        https://read.amazon.com/manga/*
@@ -20,10 +20,10 @@
   };
 
   //Get ID to save per book!
-  const regex = /(\w+)/g;
+  const regex = /\/(\w+)\?/;
   const amazonKindleId = document
     .querySelector('meta[property="og:url"]')
-    .content.match(regex)[5];
+    .content.match(regex)[1];
   console.log(`amazon kindle id: ${amazonKindleId}`);
 
   // Select the node that will be observed for mutations
