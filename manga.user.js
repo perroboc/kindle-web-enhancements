@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         New Userscript
+// @name         Kindle manga/comic web reader enhancements
 // @namespace    http://tampermonkey.net/
-// @version      0.1.1
-// @description  try to take over the world!
-// @author       You
+// @version      1.0
+// @description  Adds enhancements to the kindle manga/comic web reader
+// @author       Álvaro Muñoz
 // @match        https://read.amazon.com/manga/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=amazon.com
 // @grant        GM_setValue
@@ -20,10 +20,10 @@
         rl: "⬅️"
       };
 
+    //Get ID to save per book!
     const regex = /(\w+)/g;
     const amazonKindleId = document.querySelector('meta[property="og:url"]').content.match(regex)[5];
     console.log(`amazon kindle id: ${amazonKindleId}`)
-    //property="og:url"
 
     // Select the node that will be observed for mutations
     const targetNode = document.querySelector('body');
@@ -39,13 +39,6 @@
                     //console.log('A child node has been added or removed: ' + node.nodeName);
                     if (node.id === 'readerHamburgerMenu')
                     {
-                        //<div class="kw-row kw-rd-hamburger-section"><div class="kw-rd-hamburger-section-inner">THE BOOK</div></div>
-                        // add to readerHamburgerMenuContent, at the end
-                            // <div class="kw-row kw-rd-hamburger-section">
-                            //     <div class="kw-rd-hamburger-section-inner">THE BOOK</div>
-                            // </div>
-                            // <ul class="kw-rd-hamburger-items-list">
-                            // </ul>
                         
                         if (typeof GM_getValue(amazonKindleId+'navigationDirection') === 'undefined') {
                             GM_setValue(amazonKindleId+'navigationDirection', JSON.parse(document.getElementById('bookInfo').text).contentMetadata.navigationDirection);
@@ -74,16 +67,14 @@
                         
                         const extended_menuItemLink = document.createElement('a');
                         extended_menuItemLink.setAttribute("class", 'kw-text-normal');
-                        //extended_menuItemLink.setAttribute("href", 'javascript:void(0);');
                         extended_menuItemLink.setAttribute("href", '#');
                         extended_menuItemLink.setAttribute("id", 'readerHamburgerSwitchDirection');
-                        extended_menuItemLink.appendChild(extended_menuItemText);
-
                         extended_menuItemLink.addEventListener('click', function(event){ 
                             console.log(`Switching direction! to ${reverseDirection}`);
                             GM_setValue(amazonKindleId+'navigationDirection', reverseDirection);
                             window.location.reload(false);
                         }, false);
+                        extended_menuItemLink.appendChild(extended_menuItemText);
                         
                         const extended_menuItemInner = document.createElement('div');
                         extended_menuItemInner.setAttribute("class", 'kw-rd-hamburger-item-inner');
@@ -100,31 +91,23 @@
                         //add item to list
                         extended_menuItemsList.appendChild(extended_menuItem);
 
+                        //add section and list to end of menu
                         kindle_menuNode.appendChild(extended_menuSection);
                         kindle_menuNode.appendChild(extended_menuItemsList)
 
-                        // const menuNode = document.querySelector('ul.kw-rd-hamburger-items-list');
-                        // menuNode.appendChild(extended_menuItem);
-
-                        //menuNode.firstChild.addEventListener('click', function(event){ alert(event); }, false);
                     }
 
+                    // Modify bookInfo
                     if (node.id === 'bookInfo') {
+                        
                         let bookInfoJson = JSON.parse(node.text);
+
                         if (typeof GM_getValue(amazonKindleId+'navigationDirection') !== 'undefined') {
                             bookInfoJson.contentMetadata.navigationDirection = GM_getValue(amazonKindleId+'navigationDirection');
                             node.text = JSON.stringify(bookInfoJson);
                             console.log(`kindle navigation Direction set to : ${bookInfoJson.contentMetadata.navigationDirection}`);
                         }
                         
-                        //console.log(`navigationDirection: ${bookInfoJson.contentMetadata.navigationDirection}`);
-                        // if (GM_getValue('switchDirection') == true) {
-                        //     bookInfoJson.contentMetadata.navigationDirection = bookInfoJson.contentMetadata.navigationDirection.split("").reverse().join("");
-                        //     console.log(`navigationDirection: ${bookInfoJson.contentMetadata.navigationDirection}`);
-                        // }
-                        //bookInfoJson.contentMetadata.navigationDirection = 'lr';
-                        //console.log(`navigationDirection: ${bookInfoJson.contentMetadata.navigationDirection}`);
-                        //node.text = JSON.stringify(bookInfoJson);
                     }
                 }
             }
