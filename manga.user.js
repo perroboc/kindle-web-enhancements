@@ -1,14 +1,13 @@
 // ==UserScript==
-// @name         Kindle manga/comic web reader enhancements
-// @namespace    http://tampermonkey.net/
-// @version      1.0.2
-// @description  Adds enhancements to the kindle manga/comic web reader
+// @name         Kindle manga/comic beta web reader enhancements
+// @namespace    http://alvaromunoz.cl/
+// @version      1.0.3
+// @description  Adds enhancements to the kindle manga/comic beta web reader
 // @author       Álvaro Muñoz
 // @match        https://read.amazon.com/manga/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=amazon.com
 // @grant        GM_setValue
 // @grant        GM_getValue
-// @grant        GM_listValues
 // @run-at       document-body
 // ==/UserScript==
 
