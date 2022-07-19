@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kindle manga/comic beta web reader enhancements
 // @namespace    http://alvaromunoz.cl/
-// @version      1.1.0
+// @version      1.1.1
 // @description  Adds enhancements to the kindle manga/comic beta web reader
 // @author       Álvaro Muñoz
 // @match        https://read.amazon.com/manga/*
@@ -52,6 +52,7 @@
     function createMenuRangeItem(labelText, menuId, int_min, int_max, int_value, func) {
         let extended_menuItemText = document.createTextNode(labelText);
         let extended_menuItemLabel = document.createElement('label');
+        extended_menuItemLabel.setAttribute('class', 'kw-text-normal');
         extended_menuItemLabel.setAttribute('for', menuId);
         extended_menuItemLabel.appendChild(extended_menuItemText);
         let extended_menuItemInputRange = document.createElement('input');
@@ -102,6 +103,8 @@
         )}) contrast(${GM_getValue(amazonKindleId + 'contrast')})`;
     }
 
+    var extendedMenuActivated = false;
+
     // Select the node that will be observed for mutations
     const targetNode = document.querySelector('body');
     // Options for the observer (which mutations to observe)
@@ -111,7 +114,56 @@
         for (const mutation of mutationList) {
             if (mutation.type === 'childList') {
                 for (let node of mutation.addedNodes) {
-                    // Set default values
+                    if (node.id === 'reader' && node.innerHTML !== '') {
+                        // Create extended settings button
+                        let settingsMenuNode = document.createElement('div');
+                        settingsMenuNode.setAttribute('class', 'kw-rd-chrome-settings-t1');
+
+                        let settingsMenuButton = document.createElement('button');
+                        settingsMenuButton.setAttribute('class', 'kw-rd-chrome-settings-btn');
+                        settingsMenuButton.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                                <!-- https://phabricator.wikimedia.org/diffusion/GOJU/browse/master/AUTHORS.txt, MIT <http://opensource.org/licenses/mit-license.php>, via Wikimedia Commons -->
+                                <g id="ext-settings">
+                                    <path id="gear" d="M3 4h3v2H3zm9 0h9v2h-9zM8 3h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm-5 8h9v2H3zm15 0h3v2h-3zm-4-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zM3 18h6v2H3zm12 0h6v2h-6zm-4-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" fill="#FFFFFF" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#e8e6e3;"></path>
+                                </g>
+                            </svg>`;
+
+                        // Add menu show/hide function
+                        settingsMenuButton.addEventListener(
+                            'click',
+                            function (event) {
+                                let extended_menu = document.createElement('div');
+                                extended_menu.setAttribute('class', 'kw-rd-dot-menu');
+                                extended_menu.setAttribute('id', 'readerExtendedSettingsMenu');
+
+                                let extended_menuContent = document.createElement('div');
+                                extended_menuContent.setAttribute('class', 'kw-rd-hamburger-menu-content');
+                                extended_menuContent.setAttribute('id', 'readerExtendedSettingsMenuContent');
+
+                                extended_menu.appendChild(extended_menuContent);
+
+                                extendedMenuActivated = !extendedMenuActivated;
+                                if (extendedMenuActivated) {
+                                    console.log('showing menu');
+                                    event.currentTarget.parentNode.appendChild(extended_menu);
+                                } else {
+                                    console.log('hiding menu');
+                                    event.currentTarget.parentNode.querySelector('#readerExtendedSettingsMenu').remove();
+                                }
+                            },
+                            false
+                        );
+                        settingsMenuNode.appendChild(settingsMenuButton);
+
+                        // Insert before everything in the top right menu
+                        node.querySelector('.kw-rd-chrome-right').insertBefore(
+                            settingsMenuNode,
+                            node.querySelector('.kw-rd-chrome-right').firstChild
+                        );
+                    }
+
+                    // Set userscript default values
                     if (node.id === 'bookInfo') {
                         // Set default navigationDirection value
                         if (typeof GM_getValue(amazonKindleId + 'navigationDirection') === 'undefined') {
@@ -132,10 +184,10 @@
                         }
                     }
 
-                    // Edit Hamburger Menu
-                    if (node.id === 'readerHamburgerMenu') {
+                    // Edit readerExtendedSettingsMenu Menu
+                    if (node.id === 'readerExtendedSettingsMenu') {
                         // Get menuNode
-                        let kindle_menuNode = document.getElementById('readerHamburgerMenuContent');
+                        let kindle_menuNode = node.querySelector('#readerExtendedSettingsMenuContent');
 
                         // Set reading directions variables
                         let currentDirection = GM_getValue(amazonKindleId + 'navigationDirection');
@@ -148,7 +200,7 @@
                         let extended_menuItemsList = createMenuList();
 
                         let extended_directionItem = createMenuLinkItem(
-                            `${emojiDict[reverseDirection]} switch reading direction (refreshes page)`,
+                            `${emojiDict[reverseDirection]} Switch reading direction (refreshes page)`,
                             'readerHamburgerSwitchDirection',
                             function (event) {
                                 console.log(`Switching direction! to ${reverseDirection}`);
@@ -158,7 +210,7 @@
                         );
 
                         let extended_brightnessRangeItem = createMenuRangeItem(
-                            '☀️ Brightness: ',
+                            '☀️ Adjust Brightness: ',
                             'ext_brightness',
                             '0',
                             '2',
@@ -172,7 +224,7 @@
                         );
 
                         let extended_contrastRangeItem = createMenuRangeItem(
-                            '🌗 Contrast: ',
+                            '🌗 Adjust Contrast: ',
                             'ext_contrast',
                             '0',
                             '2',
