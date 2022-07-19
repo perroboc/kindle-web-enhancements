@@ -14,3 +14,6 @@ Install in Tampermonkey from here: [manga.user.js](https://github.com/alvaromuno
 
 ### Features (so far)
 - Switch reading directions for comics/mangas (useful for Mangas <--> Manhwas)
+- Adjust brightness
+- Adjust contrast
+- Use an exclusive menu
