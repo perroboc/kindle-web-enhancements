@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kindle manga/comic beta web reader enhancements
 // @namespace    http://alvaromunoz.cl/
-// @version      1.1.1
+// @version      1.1.2
 // @description  Adds enhancements to the kindle manga/comic beta web reader
 // @author       Álvaro Muñoz
 // @match        https://read.amazon.com/manga/*
