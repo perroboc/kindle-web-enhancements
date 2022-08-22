@@ -125,7 +125,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
                                 <!-- https://phabricator.wikimedia.org/diffusion/GOJU/browse/master/AUTHORS.txt, MIT <http://opensource.org/licenses/mit-license.php>, via Wikimedia Commons -->
                                 <g id="ext-settings">
-                                    <path id="gear" d="M3 4h3v2H3zm9 0h9v2h-9zM8 3h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm-5 8h9v2H3zm15 0h3v2h-3zm-4-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zM3 18h6v2H3zm12 0h6v2h-6zm-4-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" fill="#FFFFFF" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#e8e6e3;"></path>
+                                    <path id="gear" d="M3 4h3v2H3zm9 0h9v2h-9zM8 3h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm-5 8h9v2H3zm15 0h3v2h-3zm-4-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zM3 18h6v2H3zm12 0h6v2h-6zm-4-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" style="--darkreader-inline-fill:#e8e6e3;" fill-rule="evenodd" fill="#000000" data-darkreader-inline-fill=""></path>
                                 </g>
                             </svg>`;
 
