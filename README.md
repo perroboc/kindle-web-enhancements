@@ -1,3 +1,7 @@
+# Archived
+
+This repo has been archived. Further development is being done as a web extension in https://github.com/alvaromunoz/Potassium
+
 # Kindle web reader enhancements
 
 Userscript enhancements for [Kindle cloud reader](https://read.amazon.com) using [Tampermonkey](https://www.tampermonkey.net/).
